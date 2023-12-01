@@ -29,7 +29,7 @@ bool interactive()
 
 void listFilesRecursively(const fs::path& path) {
     for (const auto& entry : fs::directory_iterator(path)) {
-        std::cout << entry.path().filename().string() <<endl;
+        std::cout << entry.path() <<endl;
 
         if (fs::is_directory(entry.path())) {
             cout<<"--";
