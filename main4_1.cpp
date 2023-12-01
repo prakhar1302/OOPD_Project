@@ -29,7 +29,7 @@ bool interactive()
 
 void listFilesRecursively(const fs::path& path) {
     for (const auto& entry : fs::directory_iterator(path)) {
-        std::cout << entry.path() <<endl;
+        std::cout << entry.path().filename().string() <<endl;
 
         if (fs::is_directory(entry.path())) {
             cout<<"--";
@@ -167,21 +167,51 @@ void Shell::executeCommand(const string& command)
 
     if (tokens.size() > 0) {
         if (tokens[0] == "ls") {
+            auto startTime = std::chrono::high_resolution_clock::now();
             ls(tokens);
+            auto endTime = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+            std::cout << "Time taken by ls: " << duration.count() << " microseconds" << std::endl;
+
         } else if (tokens[0] == "cd") {
+            auto startTime = std::chrono::high_resolution_clock::now();
             cd(tokens);
+            auto endTime = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+            std::cout << "Time taken by cd: " << duration.count() << " microseconds" << std::endl;
+
         } else if (tokens[0] == "pwd") {
+            auto startTime = std::chrono::high_resolution_clock::now();
             string str = pwd();
             if(str.length()>0)
                 cout<<str<<endl;
             else
                 cout<<"pwd failed."<<endl;
+            auto endTime = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+            std::cout << "Time taken by pwd: " << duration.count() << " microseconds" << std::endl;
+
         } else if (tokens[0] == "mv") {
+            auto startTime = std::chrono::high_resolution_clock::now();
             mv(tokens);
+            auto endTime = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+            std::cout << "Time taken by mv: " << duration.count() << " microseconds" << std::endl;
+
         } else if (tokens[0] == "rm") {
+            auto startTime = std::chrono::high_resolution_clock::now();
             rm(tokens);
+            auto endTime = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+            std::cout << "Time taken by rm: " << duration.count() << " microseconds" << std::endl;
+
         } else if (tokens[0] == "cp") {
+            auto startTime = std::chrono::high_resolution_clock::now();
             cp(tokens);
+            auto endTime = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+            std::cout << "Time taken by cp: " << duration.count() << " microseconds" << std::endl;
+
         } else {
             cout << "Unknown command: " << tokens[0] << endl;
         }
@@ -191,7 +221,7 @@ void Shell::executeCommand(const string& command)
 void Shell::ls(vector<string> args) {
     if(args[1] == "-help")
     {
-        cout<<"\"ls\" will display the contents of the current directory. By default, ‘ls’ lists files and directories in alphabetical order."<<endl;
+        cout<<"\"ls\" will display the contents of the current directory. By default, ls lists files and directories in alphabetical order."<<endl;
         cout<<"-l : a detailed list of files."<<endl;
         cout<<"-a : a list containing all the files including hidden files."<<endl;
         cout<<"-r : recursively display the connect of all the directory present."<<endl;
